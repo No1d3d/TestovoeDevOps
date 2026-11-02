@@ -41,7 +41,9 @@ helm install kube-prom prometheus-community/kube-prometheus-stack -n monitoring
 ### Дашборд Grafana
 
 Дашборд «Golden Signals» (dashboard.json) содержит 4 панели:
+
 <img src="Grafana_Dashboard.jpg" alt="Дашборд Grafana" width="800">
+
 Traffic: sum(rate(http_requests_total{job="go-info-app"}[5m]))
 
 Errors: sum(rate(http_requests_total{job="go-info-app", status=~"5.."}[5m]))
