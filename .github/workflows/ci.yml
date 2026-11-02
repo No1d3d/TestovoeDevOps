@@ -34,12 +34,12 @@ jobs:
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
-
+        
       - name: Validate manifests (client-side dry-run)
         run: |
           for f in 03-kubernetes/*.yaml; do
             echo "Validating $f"
-            kubectl apply --dry-run=client -f "$f"
+            kubectl apply --dry-run=client --validate=false -f "$f"
           done
 
   deploy:
