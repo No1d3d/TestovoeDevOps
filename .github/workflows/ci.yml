@@ -1,4 +1,4 @@
-name: Build, Validate and Deploy
+name: Build and Validate
 
 on:
   push:
@@ -32,22 +32,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v3
-        
-      - name: Validate manifests (client-side dry-run)
+      - name: Install kubeconform
         run: |
-          for f in 03-kubernetes/*.yaml; do
-            echo "Validating $f"
-            kubectl apply --dry-run=client --validate=false -f "$f"
-          done
+          curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
+          sudo mv kubeconform /usr/local/bin/
 
-  deploy:
-    needs: build-and-push
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-      - name: Update deployment image
+      - name: Validate manifests with kubeconform
         run: |
-          kubectl set image deployment/go-info-app app=no1d3d/go-info-app:${{ github.sha }} -n go-info-app
-          kubectl rollout status deployment/go-info-app -n go-info-app
+          kubeconform -strict -summary 03-kubernetes/
