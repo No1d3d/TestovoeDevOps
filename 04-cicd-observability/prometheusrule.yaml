@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: go-info-app-alerts
+  namespace: go-info-app
+  labels:
+    release: kube-prom
+spec:
+  groups:
+    - name: go-info-app
+      rules:
+        - alert: AppTargetDown
+          expr: up{job="go-info-app"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "go-info-app target is down"
+        - alert: AppReadinessFailing
+          expr: kube_pod_status_ready{condition="true", namespace="go-info-app", pod=~"go-info-app-.*"} == 0
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "go-info-app pod not ready"

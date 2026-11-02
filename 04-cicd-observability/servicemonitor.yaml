@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: go-info-app
+  namespace: go-info-app
+  labels:
+    release: kube-prom
+spec:
+  selector:
+    matchLabels:
+      app: go-info-app
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // getOutboundIP возвращает «локальный» IP-адрес хоста.
@@ -78,6 +79,9 @@ func main() {
 	r.GET("/ready", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
+
+	// Prometheus
+	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	log.Printf("Starting server on :8080 (hostname=%s, ip=%s, author=%s)", hostname, ip, author)
 	if err := r.Run(":8080"); err != nil {
