@@ -12,6 +12,8 @@ Workflow состоит из двух джоб:
 - `DOCKERHUB_USERNAME` - логин Docker Hub (`no1d3d`).
 - `DOCKERHUB_TOKEN` - Personal Access Token с правами Read & Write.
 
+<img src="CompleteGHA_run.jpg" alt="Успешный прогон GitHub Actions" width="800">
+
 ### Локальная проверка манифестов
 ```bash
 kubectl apply --dry-run=client -f 03-kubernetes/
@@ -39,7 +41,7 @@ helm install kube-prom prometheus-community/kube-prometheus-stack -n monitoring
 ### Дашборд Grafana
 
 Дашборд «Golden Signals» (dashboard.json) содержит 4 панели:
-
+<img src="Grafana_Dashboard.jpg" alt="Дашборд Grafana" width="800">
 Traffic: sum(rate(http_requests_total{job="go-info-app"}[5m]))
 
 Errors: sum(rate(http_requests_total{job="go-info-app", status=~"5.."}[5m]))
