@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-info-app
+  namespace: go-info-app
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: go-info.example
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: go-info-app
+                port:
+                  number: 80

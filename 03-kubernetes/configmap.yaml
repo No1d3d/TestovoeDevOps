@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: go-info-app
+data:
+  AUTHOR: "No1d3d"
