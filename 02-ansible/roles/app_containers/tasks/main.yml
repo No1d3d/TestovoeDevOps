@@ -1,0 +1,11 @@
+- name: Run three app containers
+  community.docker.docker_container:
+    name: "app-{{ item }}"
+    image: no1d3d/go-info-app:1.0.0
+    state: started
+    recreate: true
+    ports:
+      - "{{ 8080 + item }}:8080"
+    env:
+      AUTHOR: "Test User"
+  loop: [1, 2, 3]
